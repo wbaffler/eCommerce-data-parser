@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
-import csv
+from Form_CSV import write_in_file
+
 
 headers = {
     'authority': 'www.terradeck.ru',
@@ -137,6 +138,4 @@ if __name__ == '__main__':
     categories = find_categories()
     for c in categories:
         parse_category(c[1], c[0])
-    with open(FILENAME, "w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerows(data_matrix)
+    write_in_file(FILENAME, data_matrix)
