@@ -1,0 +1,31 @@
+import requests
+import csv
+
+filename_input = 'data_uplast.csv'
+TABLE_INDEX = 5
+
+def download_img(image_url):
+    image_el = image_url.replace('[', '').replace(']', '').replace('\'', '').split(',')
+    print(image_el)
+    if image_el != '':
+        for i in image_el:
+            SHORTCODE = i.rsplit("/")[-1]
+
+            img_data = requests.get(i).content
+            with open('img/' + SHORTCODE, 'wb') as handler:
+                handler.write(img_data)
+
+def parse_input():
+    with open(filename_input, newline='') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=',')
+        urls = []
+        for row in csvreader:
+            urls.append(row[TABLE_INDEX])
+        return urls
+
+
+if __name__ == '__main__':
+    for url in parse_input():
+        download_img(url)
+    '''for line in parse_input()[0:1]:
+        download_img(line.split(","))'''
